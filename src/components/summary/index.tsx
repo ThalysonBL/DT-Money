@@ -2,8 +2,11 @@ import { Container } from "./style";
 import Entradas from '../../assets/Entrada.svg'
 import Saidas from '../../assets/saidas.svg'
 import Total from '../../assets/Total.svg'
+import { useContext } from "react";
+import { TransactionContext } from "../../TransactionContext";
 
 export function Summary(){
+    const transactions = useContext(TransactionContext)
     return(
         <Container>
             <div>
@@ -36,4 +39,8 @@ export function Summary(){
         </Container>
     )
 
+}
+
+function TransactionsContext(TransactionsContext: any) {
+    throw new Error("Function not implemented.");
 }

@@ -1,12 +1,11 @@
-import { useEffect } from "react";
-import { api } from "../../../services/api";
+import { useContext} from "react";
+import { TransactionContext } from "../../../TransactionContext";
 import { Container } from "./styles";
 
+
 export function TransactionTable(){
-    useEffect(() => {
-        api.get('/transactions')
-        .then(response => console.log(response.data))
-    },[]);
+    const transactions = useContext(TransactionContext)
+    
     return(
         <Container>
             <table>
@@ -22,34 +21,30 @@ export function TransactionTable(){
                     </tr>
                 </thead>
                     <tbody >
-                        <tr>
+                        {transactions.map( transaction => 
+                            (
+                            <tr key={transaction.id}>
                             <td>
-                                Desenvolvimento de website
+                                {transaction.title}
                             </td>
-                            <td className="deposit">R$1000,00
+                            <td className={transaction.type}>
+                                {new Intl.NumberFormat('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                }).format(transaction.amount)}
 
                             </td>
                             <td>
-                                Desenvolvimento
+                                {transaction.category}
                             </td>
                             <td>
-                                20/02/2022
+                                {new Intl.DateTimeFormat('pt-BR').format(
+                                    new Date(transaction.createdAt)
+                                )}
                             </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Aluguel
-                            </td>
-                            <td className="withdraw">- R$500,00
-
-                            </td>
-                            <td>
-                                Casa
-                            </td>
-                            <td>
-                                20/02/2022
-                            </td>
-                        </tr>
+                        </tr>)
+                        )}
+                        
                     </tbody>
             </table>
         </Container>
